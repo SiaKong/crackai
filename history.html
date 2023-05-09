@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <title>Crack AI</title>
+        <link rel = "stylesheet" type = "text/css" href = "history.css">
+        <style>
+            .fade-in {
+              opacity: 0;
+              transition: opacity 1.3s ease-in-out;
+            }
+        
+            .fade-in.show {
+              opacity: 1;
+            }
+        </style>
+        <script>
+            window.addEventListener('DOMContentLoaded', function() {
+              var content = document.getElementById('fade');
+              content.classList.add('show');
+
+              //clock
+              var clock = document.getElementById('clock');
+              setInterval(function() {
+                var now = new Date();
+                var midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+                var timeLeft = midnight - now;
+
+                var hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+                var minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
+                var seconds = Math.floor((timeLeft / 1000) % 60);
+
+                clock.textContent = 'NEW ART TO CRACK IN: ' + hours + 'h ' + minutes + 'm ' + seconds + 's';
+              }, 0);
+            });
+        </script>
+    </head>
+
+    <body>
+        <div id="fade" class="fade-in">
+            <div id="header">
+                <h1>CRACK AI</h1>
+                <p>CRACK THE AI GENERATED ART</p>
+            </div>
+            
+            <div class="container">
+                <div id="grid-container"></div>
+            </div>
+            <div id="navigation"></div>
+
+            <div id="icons">
+                <a href="index.html"><img id="icon1" class="icon" src="clock.svg" alt="Icon 1"></a>
+            </div>
+
+            <div id="clock"></div>
+
+            <script src = "history.js"></script>
+        </div>
+    </body>
+</html>
+
+
+

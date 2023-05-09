@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <title>Crack AI</title>
+        <link rel = "stylesheet" type = "text/css" href = "style.css">
+        <script src = "main.js"></script>
+        <style>
+            .fade-in {
+              opacity: 0;
+              transition: opacity 1.3s ease-in-out;
+            }
+        
+            .fade-in.show {
+              opacity: 1;
+            }
+
+        </style>
+        <script>
+            window.addEventListener('DOMContentLoaded', function() {
+              //fade in
+              var content = document.getElementById('fade');
+              content.classList.add('show');
+
+              //clock
+              var clock = document.getElementById('clock');
+              setInterval(function() {
+                var now = new Date();
+                var midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+                var timeLeft = midnight - now;
+
+                var hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+                var minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
+                var seconds = Math.floor((timeLeft / 1000) % 60);
+
+                clock.textContent = 'NEW ART TO CRACK IN: ' + hours + 'h ' + minutes + 'm ' + seconds + 's';
+              }, 0);
+            });
+        </script>
+    </head>
+
+    <body>
+        <div id="fade" class="fade-in">
+            <div id="header">
+                <h1>CRACK AI</h1>
+                <p>CRACK THE AI GENERATED ART</p>
+            </div>
+            
+            <form>
+                <div id="content">
+                    <div id="image">
+                        <div class="slideshow-container">
+                            <img class="slide active" src="image1.jpg" alt="Image 1">
+                            <img class="slide" src="image2.jpg" alt="Image 2">
+                            <img class="slide" src="image3.jpg" alt="Image 3">
+                        </div>
+                        <div id="arrows">
+                            <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+                            <span id="currentSlide">1/3</span>
+                            <a class="next" onclick="changeSlide(1)">&#10095;</a>
+                        </div>
+                    </div>
+                    <div id="textboxes">
+                        <h3>08/05/2023</h3>
+                        <p>Image #1</p>
+                        <label>WORD 1</label>
+                        <input type="text" class="textbox" placeholder="Textbox 1">
+
+                        <label>WORD 2</label>
+                        <input type="text" class="textbox" placeholder="Textbox 2">
+
+                        <label>WORD 3</label>
+                        <input type="text" class="textbox" placeholder="Textbox 3">
+                    </div>
+                </div>
+                <div id="container">
+                    <input type="button" id="submit" value="TRY 1/3">
+                    <p id="resultText" style="display: none;">Trial completed!</p>
+                </div>
+            </form>
+            
+            <div id="icons">
+                <a href="history.html"><img id="icon1" class="icon" src="history.svg" alt="Icon 1"></a>
+                <a href="#"><img id="icon2" class="icon" src="help.svg" alt="Icon 2"></a>
+            </div>
+
+            <div id="clock"></div>
+        </div>
+    </body>
+</html>

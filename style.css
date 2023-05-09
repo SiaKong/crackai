@@ -1,0 +1,117 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+
+#textboxes {
+    text-align: left;
+    padding-bottom: 5px;
+}
+
+  #header {
+    text-align: center;
+    padding-top: 20px;
+  }
+  
+  #content {
+    display: flex;
+    align-items: center;
+    padding-top: 45px;
+    padding-bottom: 70px;
+    max-width: 550px;
+    margin: 0 auto;
+  }
+  
+  #image {
+    flex: 1.5;
+    margin-right:25px;
+    position: relative;
+  }
+  
+  .slideshow-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+  }
+  
+  .slide {
+    display: none;
+    width: 100%;
+  }
+  
+  .slide.active {
+    display: block;
+  }
+  
+  .prev,
+  .next {
+    position: absolute;
+    font-size: 30px;
+    color: #4CAF50;
+    cursor: pointer;
+  }
+
+  .prev {
+    left: 50px; /* Position the previous arrow to the left */
+  }
+
+  .next {
+    right: 50px; /* Position the next arrow to the right */
+  }
+
+  #arrows {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+  }
+
+  #textboxes {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .textbox {
+    margin-bottom: 30px;
+    height: 30px;
+  }
+  
+  #icons {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .icon {
+    font-size: 30px;
+    color: #4CAF50;
+  }
+  
+  #container {
+    text-align: center;
+    position: relative;
+    height: 70px;
+  }
+  
+  #submit {
+    top: 0;
+    left: 0;
+  }
+  
+  #resultText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: -20px;
+  }
+
+
+  #clock {
+    text-align: center;
+    font-size: 18px;
+    color: #000;
+  }
