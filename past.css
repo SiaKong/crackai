@@ -1,0 +1,115 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    align-items: center;
+  }
+  
+  
+  #header {
+    text-align: center;
+    padding-top: 20px;
+  }
+  
+  #content {
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  #image {
+    margin-right: 25px;
+    margin-left: 25px;
+    position: relative;
+  }
+  
+  .slideshow-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+  }
+  
+  .slide {
+    display: none;
+    width: 100%;
+  }
+  
+  .slide.active {
+    display: block;
+  }
+  
+  .prev,
+  .next {
+    position: absolute;
+    font-size: 30px;
+    color: #4CAF50;
+    cursor: pointer;
+  }
+  
+  .prev {
+    left: 50px; /* Position the previous arrow to the left */
+  }
+  
+  .next {
+    right: 50px; /* Position the next arrow to the right */
+  }
+  
+  #arrows {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+  }
+  
+  #icons {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .icon {
+    font-size: 30px;
+    color: #4CAF50;
+  }
+  
+  #container {
+    text-align: center;
+    position: relative;
+    height: 40px;
+  }
+  
+  #submit {
+    top: 0;
+    left: 0;
+  }
+  
+  #resultText {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: -20px;
+    font-size:17px;
+  }
+  
+  #clock {
+    text-align: center;
+    font-size: 18px;
+    color: #000;
+  }
+  
+  #userInput {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+  
+  #phraseInput {
+    margin: 25px;
+    height: 30px;
+    width: 600px;
+    left: 50%;
+  }

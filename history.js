@@ -1,3 +1,5 @@
+var clickedDate = '';
+
 document.addEventListener("DOMContentLoaded", function() {
     const gridContainer = document.getElementById("grid-container");
     const navigation = document.getElementById("navigation");
@@ -5,13 +7,39 @@ document.addEventListener("DOMContentLoaded", function() {
     let images = []; // Array to store the image URLs
     let currentPage = 0;
     const imagesPerPage = 25;
-    const totalImages = 100; // Total number of images (example value)
   
-    // Generate image URLs (example URLs)
-    for (let i = 0; i < totalImages; i++) {
-      images.push(`image${i + 1}.jpg`);
+    // Filter image URLs based on dates
+    const currentDate = new Date();
+    const year1 = currentDate.getFullYear();
+    const month1 = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const day1 = String(currentDate.getDate()).padStart(2, "0");
+    const todaysDateStr = `${year1}-${month1}-${day1}`;
+
+    const startDate = new Date("2023-05-09"); // Adjust the start date as needed
+
+    let currentDateIterator = new Date(currentDate); 
+    
+    let imgCount = 0;
+    while (currentDateIterator >= startDate){
+        const year = currentDateIterator.getFullYear();
+        const month = String(currentDateIterator.getMonth() + 1).padStart(2, "0");
+        const day = String(currentDateIterator.getDate()).padStart(2, "0");
+        const currentDateStr = `${year}-${month}-${day}`;
+        
+        const imageUrl = `testing/${currentDateStr}-01.png`;
+        images.push(imageUrl);
+
+        currentDateIterator.setDate(currentDateIterator.getDate() - 1); // Move to the next date
+        imgCount++;
     }
-  
+
+    let fillGrey = 25 - imgCount;
+    for (let i = 0; i < fillGrey; i++){
+        const imageUrl = 'error.png';
+        images.push(imageUrl);
+    }
+
+
     // Render grid
     function renderGrid(page) {
       gridContainer.innerHTML = ""; // Clear previous grid
@@ -25,10 +53,22 @@ document.addEventListener("DOMContentLoaded", function() {
         gridBox.className = "grid-box";
   
         const imageLink = document.createElement("a");
-        imageLink.href = "index.html"; // Link each image to index.html
+
+        function updateClickedDate(date) {
+          localStorage.setItem("clickedDate", date);
+        }
+
         imageLink.addEventListener("click", function(event) {
-          event.preventDefault(); // Prevent the default link behavior
-          window.location.href = imageLink.href; // Redirect the current page
+            event.preventDefault(); // Prevent the default link behavior
+            let justDate = imageUrl.replace("testing/","");
+            justDate = justDate.substring(0,10);
+            if (justDate==todaysDateStr) {
+                imageLink.href = "index.html";
+            }else{
+                updateClickedDate(justDate);
+                imageLink.href = "past.html";
+            }
+            window.location.href = imageLink.href; // Redirect the current page
         });
   
         const image = new Image();
@@ -79,4 +119,8 @@ document.addEventListener("DOMContentLoaded", function() {
   
     renderGrid(currentPage);
     renderNavigation();
+    
   });
+
+
+  

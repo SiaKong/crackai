@@ -3,7 +3,9 @@
     <head>
         <meta charset = "utf-8">
         <title>Crack AI</title>
-        <link rel = "stylesheet" type = "text/css" href = "history.css">
+        <link rel = "stylesheet" type = "text/css" href = "past.css">
+        <script src = "history.js"></script>
+        <script src = "past.js"></script>
         <style>
             .fade-in {
               opacity: 0;
@@ -13,20 +15,25 @@
             .fade-in.show {
               opacity: 1;
             }
+
             /* Add this media query for screen widths below 500px */
             @media (max-width: 600px) {
-                body {
+                #header {
                     font-size:13px;
                 }
+                
 
-                #grid-container {
-                    gap: 10px;
-                    margin: 20px;
+                .slide {
+                    max-height: 350px;
+                }
+                #resultText{
+                    font-size:17px;
                 }
             }
         </style>
         <script>
             window.addEventListener('DOMContentLoaded', function() {
+              //fade in
               var content = document.getElementById('fade');
               content.classList.add('show');
 
@@ -54,24 +61,46 @@
                 <p>CRACK THE AI GENERATED ART</p>
             </div>
             
-            <div class="container">
-                <div id="grid-container"></div>
+            <div id="content">
+                <p id="datep"></p>
+                <div id="image">
+                    <div class="slideshow-container">
+                        <img class="slide active" alt="Image 1">
+                        <img class="slide" alt="Image 2">
+                        <img class="slide" alt="Image 3">
+                    </div>
+                    <div id="arrows">
+                        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+                        <span id="currentSlide">1/3</span>
+                        <a class="next" onclick="changeSlide(1)">&#10095;</a>
+                    </div>
+                </div>
             </div>
-            <div id="navigation"></div>
 
-            <p id="datep"></p>
+            <div id="userInput">
+                <input type="text" id="phraseInput" class="textbox" placeholder=" Guess the phrase">
+            </div>
+
+            <div id="container">
+                <input type="button" id="submit" value="TRY 1/3">
+                <p id="resultText" style="display: none;"></p>
+            </div>
+        
+        
 
             <div id="icons">
-                <a href="index.html"><img id="icon1" class="icon" src="clock.svg" alt="Icon 1"></a>
+                <a href="history.html"><img id="icon1" class="icon" src="history.svg" alt="Icon 1"></a>
+                <a href="#"><img id="icon2" class="icon" src="help.svg" alt="Icon 2"></a>
             </div>
+
+            <a href="index.html"><p>GO TO TODAY'S ART</p></a>
 
             <div id="clock"></div>
 
-            <script src = "history.js"></script>
-            <script src = "cdate.js"></script>
+                
+                
+            
+
         </div>
     </body>
 </html>
-
-
-
