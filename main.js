@@ -4,6 +4,8 @@ const year = currentDate.getFullYear();
 const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Adding 1 as months are zero-based
 const day = String(currentDate.getDate()).padStart(2, "0");
 const formattedDate = `${year}-${month}-${day}`;
+let resultText = '';
+const phraseInput = document.getElementById("phraseInput");
 
 //start
 const maxTries = 4;
@@ -75,8 +77,8 @@ function loadTextContent(date) {
   fetch(filePath)
     .then((response) => response.text())
     .then((data) => {
-      const resultText = document.getElementById("resultText");
-      resultText.textContent = data;
+      resultText = document.getElementById("resultText");
+      resultText.textContent = data.toUpperCase();
     })
     .catch((error) => {
       console.error("Error loading text content:", error);
@@ -85,6 +87,8 @@ function loadTextContent(date) {
 
 // Trial button click handler
 function handleButtonClick() {
+  scoreSentence(phraseInput, resultText.textContent);
+
   if (tryCount < maxTries) {
     tryCount++;
     document.getElementById("submit").setAttribute("value", `TRY ${tryCount}/${maxTries-1}`);
@@ -97,5 +101,33 @@ function handleButtonClick() {
   }
 }
 
+//score sentence
+let gotWords = {};
+
+function scoreSentence(userInput, corrPhrase){
+  const words = userInput.innerText.split(" ");
+  userInput.innerHTML = "";
+
+  words.forEach((word, index) => {
+    // if (corrPhrase.includes(word)) {
+    //   words[index] = `<span class="highlighted">${word}</span>`;
+    // }else{
+    //   words[index] = `${word}`;
+    // }
+    if (corrPhrase.includes(word)) {
+      userInput.innerHTML += `<span class="highlighted">${word}</span>`;
+    }else{
+      userInput.innerHTML += `${word}`;
+    }
+    if (index < words.length - 1) {
+      userInput.innerHTML += "&nbsp";
+    }
+  });
+
+  phraseInput = userInput.innerHTML;
+  //let temp = phraseInput.innerText;
+  //phraseInput.innerText = temp;
+
+}
 
 window.addEventListener("load", start, false);

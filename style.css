@@ -6,6 +6,9 @@ body {
   align-items: center;
 }
 
+.highlighted {
+  color: green;
+}
 
 #header {
   text-align: center;
@@ -106,10 +109,47 @@ body {
   display: flex;
   justify-content: center;
 }
-
 #phraseInput {
   margin: 25px;
-  height: 30px;
+  height: 25px;
   width: 600px;
-  left: 50%;
+  border: none;
+  border-radius: 4px;
+  background-color: #e7e9eb;
+  padding: 10px;
+  overflow-x: auto;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  transition: padding-left 0.3s ease;
+  cursor: text;
+  caret-color: #1e1e1e;
+  font-size: 14px;
+  font-family: 'Arial', sans-serif;
+  color: #1f1f20;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+#phraseInput:empty::before {
+  content: attr(placeholder);
+  color: #a5a5ad;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+#phraseInput.br {
+  padding-left: 20px; /* Adjust the padding as needed */
+}
+
+#phraseInput:focus {
+  text-align: left;
+  padding-left: 5px;
+  border-color: blue;
+  background-color: #eff2f5;
+}
+
+#phraseInput::selection {
+  background-color: #b3d4fc;
 }
