@@ -85,10 +85,12 @@ document.addEventListener("DOMContentLoaded", function() {
           }
           image.style.verticalAlign = "middle"; // Align the image vertically in the middle
           imageLink.style.display = "inline-block"; // Display the anchor element as inline-block
+          gridBox.style.borderColor = "lightgray";
         };
 
         image.onerror = function() {
           gridBox.style.backgroundColor = "lightgray";
+          gridBox.style.borderColor = "lightgray";
           image.style.display = "none"; // Hide the image element for the grey box
           imageLink.style.display = "inline-block"; // Display the anchor element as inline-block
         };

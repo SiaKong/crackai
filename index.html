@@ -2,8 +2,9 @@
 <html>
     <head>
         <meta charset = "utf-8">
-        <title>Crack AI</title>
+        <title>CRAICK</title>
         <link rel = "stylesheet" type = "text/css" href = "style.css">
+        <link rel="icon" href="favicon.png">
         <script src = "main.js"></script>
         <style>
             .fade-in {
@@ -21,12 +22,21 @@
                     font-size:13px;
                 }
                 
-
-                .slide {
-                    max-height: 350px;
-                }
                 #resultText{
                     font-size:17px;
+                }
+
+                #content {
+                    max-width: 350px;
+                }
+
+                .modal-content {
+                    max-width: 300px;
+                    margin: 70px auto;
+                }
+
+                #gameIntro{
+                    font-size: smaller;
                 }
             }
         </style>
@@ -47,7 +57,7 @@
                 var minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
                 var seconds = Math.floor((timeLeft / 1000) % 60);
 
-                clock.textContent = 'NEW ART TO CRACK IN: ' + hours + 'h ' + minutes + 'm ' + seconds + 's';
+                clock.textContent = 'NEW CRAICK IN: ' + hours + 'h ' + minutes + 'm ' + seconds + 's';
               }, 0);
             });
         </script>
@@ -56,13 +66,13 @@
     <body>
         <div id="fade" class="fade-in">
             <div id="header">
-                <h1>CRACK AI</h1>
-                <p>CRACK THE AI GENERATED ART</p>
+                <h1 style="color:rgb(63, 63, 63)">CR<span style="color:rgb(87, 192, 55)">AI</span>CK</h1>
+                <p style="font-weight:600; color:rgb(167, 167, 167);">CRACK THE AI GENERATED ART</p>
             </div>
             
             <div id="content">
-                <p>TODAY'S AI ART</p>
-                <p id="datep"></p>
+                <p style="color:rgb(97, 97, 97); font-weight:600; margin-bottom:0;">TODAY'S CR<span style="color:rgb(87, 192, 55)">AI</span>CK</p>
+                <h2 id="datep" style="margin-top: 0; color:rgb(63, 63, 63)"></h2>
                 <div id="image">
                     <div class="slideshow-container">
                         <img class="slide active" alt="Image 1">
@@ -77,28 +87,54 @@
                 </div>
             </div>
 
+            <div id="resultDisplay"><p id="resultText"></p></div>
+
             <div id="userInput">
-                <div type="text" id="phraseInput" class="textbox" placeholder=" Guess the phrase" contenteditable="true" style="text-transform: uppercase;"></div>
+                <input type="text" id="phraseInput" class="textbox" placeholder=" Guess the sentence" style="text-transform: uppercase;">
             </div>
 
             <div id="container">
                 <input type="button" id="submit" value="TRY 1/3">
-                <p id="resultText" style="display: none;"></p>
+                <a href="#"><img id="share" class="icon" src="share.svg" alt="Icon 2" style="display:none;"></a>
             </div>
         
-        
-
             <div id="icons">
-                <a href="history.html"><img id="icon1" class="icon" src="history.svg" alt="Icon 1"></a>
-                <a href="#"><img id="icon2" class="icon" src="help.svg" alt="Icon 2"></a>
+                <a href="history.html"><img id="past" class="icon" src="history.svg" alt="Icon 1"></a>
+                <a href="#"><img id="help" class="icon" src="help.svg" alt="Icon 2"></a>
             </div>
 
             <div id="clock"></div>
 
-                
-                
-            
+            <div id="shareModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>SHARE</h2>
+                    <p>Modal content goes here.</p>
+                </div>
+            </div>
+
+            <div id="helpModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div id="howtoplay">
+                        <h2 style="color:rgb(63,63,63);">HOW TO <span style="color:rgb(87, 192, 55)">PLAY</span></h2>
+                        <p id="gameIntro" style="color:grey; font-weight:600;">Crack the AI generated art by guessing the prompt that was used to generate the art</p>
+                        <ul>
+                            <li>You get 3 tries.</li>
+                            <li>For each trial, if a word in your sentence exists in the AI prompt sentence, it will appear green.</li>
+                            <p id="example" style="color:rgb(156, 156, 156); font-weight:600;">Y __ __ __&nbsp;&nbsp;<span style="color:rgb(5, 163, 5)">GUESS<span></p>
+                            <li>For your last trial, the first letter of all the words will appear to help you guess.</li>
+                        </ul>
+                    </div>
+                    <div id="feedback">
+                        <a href="#" id="golink" style="font-size: smaller">Send feedback or suggest prompts @ </a>
+                        <hr>
+                        <p id="copyright" style="font-size: small;">&copy; 2023 Siana Kong</p>
+                    </div>
+                </div>
+            </div>
 
         </div>
+        <p id="copyright" style="font-size: x-small;">&copy; 2023 Siana Kong</p>
     </body>
 </html>
