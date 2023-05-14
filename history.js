@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const day1 = String(currentDate.getDate()).padStart(2, "0");
     const todaysDateStr = `${year1}-${month1}-${day1}`;
 
-    const startDate = new Date("2023-05-09"); // Adjust the start date as needed
+    const startDate = new Date("2023-05-10"); // Adjust the start date as needed
 
     let currentDateIterator = new Date(currentDate); 
     

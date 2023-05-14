@@ -3,6 +3,7 @@ const currentDate = new Date();
 const year = currentDate.getFullYear();
 const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Adding 1 as months are zero-based
 const day = String(currentDate.getDate()).padStart(2, "0");
+const firstDay = '2023-05-10';
 const formattedDate = `${year}-${month}-${day}`;
 let resultText = '';
 let answer = '';
@@ -17,6 +18,9 @@ let slideIndex = 0;
 let tryCount = 1;
 
 function start() {
+  //localStorage.clear();
+  resultText = document.getElementById("resultText");
+  fetchUserTrial(formattedDate);
   showSlide(slideIndex);
 
   let datep = document.getElementById("datep");
@@ -31,10 +35,84 @@ function start() {
   const helpButton = document.getElementById("help");
   helpButton.addEventListener("click", helpModal);
 
+  const prevDateElement = document.getElementById("prevDate");
+  const nextDateElement = document.getElementById("nextDate");
+  prevDateElement.addEventListener("click", prevDate);
+
+  nextDateElement.style.color = '#ccc';
+  nextDateElement.style.cursor = 'default';
+  
   loadImages(formattedDate);
   loadTextContent(formattedDate);
 }
 
+//store user data
+function storeUserTrial(date, trial, rtHTML, dateGotWords){
+  var key = 'userdata_' + date;
+
+  var data = {
+    trial: trial,
+    rtHTML: rtHTML,
+    dateGotWords: dateGotWords
+  };
+
+  var jsonData = JSON.stringify(data);
+  localStorage.setItem(key, jsonData);
+}
+
+function fetchUserTrial(date){
+  var key = 'userdata_' + date;
+  
+  var jsonData = localStorage.getItem(key);
+
+  if (jsonData){
+    var data = JSON.parse(jsonData);
+    tryCount = data.trial;
+    resultText.innerHTML = data.rtHTML;
+    gotWords = data.dateGotWords;
+    btnControl(tryCount);
+  }else{
+    tryCount = 1;
+    resultText.innerHTML = '';
+    gotWords = [];
+    loadTextContent();
+  }
+}
+
+// prev & next date
+function prevDate(){
+  let previousDate = getDate(formattedDate,-1)
+
+  if (checkDate(previousDate,0)==0){
+    localStorage.setItem("clickedDate", previousDate);
+    window.location.href = 'past.html';
+  }
+}
+
+function getDate(fDate,n) {
+  // Assuming the formatted date has the format "YYYY-MM-DD"
+  const ndate = new Date(fDate);
+  ndate.setDate(ndate.getDate()+n+1);
+
+  let nyear = ndate.getFullYear();
+  let nmonth = ndate.getMonth() + 1; // Adding 1 as months are zero-based
+  let nday = ndate.getDate();
+  let updatedDate = `${nyear}-${String(nmonth).padStart(2, "0")}-${String(nday).padStart(2, "0")}`;
+  return updatedDate;
+}
+
+function checkDate(fdate,n) {
+  let ndate = getDate(fdate,n);
+  ndate = new Date(ndate);
+  let fday = new Date(firstDay);
+
+  if (ndate < fday) {
+    return -1;
+  } 
+  else{
+    return 0;
+  }
+}
 
 // Image slide
 function changeSlide(n) {
@@ -87,18 +165,8 @@ function loadTextContent(date) {
   fetch(filePath)
     .then((response) => response.text())
     .then((data) => {
-      resultText = document.getElementById("resultText");
-      resultText.innerHTML = '';
       answer = data.toUpperCase();
-      for (let i = 0; i < answer.length; i++){
-        if (isAlpha(data[i])){
-          resultText.innerHTML += '__&nbsp;';
-        }else if (data[i]==' '){
-          resultText.innerHTML += '<wbr>&nbsp;&nbsp;<wbr>';
-        }else{
-          resultText.innerHTML += `${data[i]}&nbsp;`;
-        }
-      }
+      scoreSentence('',tryCount);
     })
     .catch((error) => {
       console.error("Error loading text content:", error);
@@ -108,18 +176,38 @@ function loadTextContent(date) {
 // Trial button click handler
 function handleButtonClick() {
   const phraseInput = document.getElementById("phraseInput");
-  let inputValue = phraseInput.value.toUpperCase();
+  inputValue = phraseInput.value.toUpperCase();
 
   tryCount++;
   scoreSentence(inputValue, tryCount);
 
   if (tryCount < maxTries && !correctPrompt) {
-    document.getElementById("submit").setAttribute("value", `TRY ${tryCount}/${maxTries-1}`);
+    const submitBtn = document.getElementById("submit");
+
+    submitBtn.disabled = true;
+    submitBtn.style.backgroundColor = 'grey';
+    setTimeout(function() {
+      btnControl(tryCount);
+    }, 700);
   }
   if (tryCount == maxTries) {
     trialComplete();
   }
+
+  storeUserTrial(formattedDate,tryCount,resultText.innerHTML,gotWords);
 }
+
+function btnControl(tryCount){
+  const submitBtn = document.getElementById("submit");
+  submitBtn.disabled = false;
+  submitBtn.setAttribute("value", `TRY ${tryCount}/${maxTries-1}`);
+  if (tryCount==2){
+    submitBtn.style.backgroundColor = "rgb(252, 163, 38)";
+  }else if (tryCount==3){
+    submitBtn.style.backgroundColor = "rgb(255, 104, 59)";
+  }
+}
+
 
 //score sentence
 
@@ -146,11 +234,11 @@ function scoreSentence(userInput, tryCount){
     } 
   });
 
-  //figure out how to deal with early trial complete
-
+  let numGotWords = 0;
   answerwords.forEach((word, index) => {
     if (gotWords.includes(removeNonAlpha(word))){
       resultText.innerHTML += `<span class="highlighted">${word}</span>`;
+      numGotWords++;
     }else{
       if (tryCount == maxTries){
         resultText.innerHTML += `${word}`;
@@ -168,6 +256,10 @@ function scoreSentence(userInput, tryCount){
       resultText.innerHTML += "<wbr>&nbsp;&nbsp;<wbr>";
     }
   });
+
+  if (numGotWords==answerwords.length){
+    trialComplete();
+  }
 }
 
 function removeNonAlpha(str) {

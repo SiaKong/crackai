@@ -7,23 +7,43 @@ body {
   padding-bottom: 20px;
 }
 
-.highlighted {
-  color: green;
-}
-
 #header {
   text-align: center;
-  padding-top: 5px;
+  font-size:14px;
 }
 
 #content {
   align-items: center;
-  padding-top: 10px;
+  padding-top: 5px;
   padding-bottom: 20px;
   max-width: 400px;
   margin: 0 auto;
 }
 
+
+/*date page*/
+
+.prevDate,
+.nextDate {
+  padding-left:20px;
+  padding-right:20px;
+  font-size: 25px;
+  color: #5c5c5c;
+  cursor: pointer;
+}
+
+.prevDate:hover,
+.nextDate:hover {
+  color: #198d4d;
+}
+
+#arrows1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*image slides*/
 #image {
   margin-right: 25px;
   margin-left: 25px;
@@ -56,17 +76,17 @@ body {
 .prev,
 .next {
   position: absolute;
-  font-size: 30px;
+  font-size: 20px;
   color: #4CAF50;
   cursor: pointer;
 }
 
 .prev {
-  left: 50px; /* Position the previous arrow to the left */
+  left: 70px; /* Position the previous arrow to the left */
 }
 
 .next {
-  right: 50px; /* Position the next arrow to the right */
+  right: 70px; /* Position the next arrow to the right */
 }
 
 #arrows {
@@ -76,9 +96,10 @@ body {
   margin-top: 15px;
 }
 
+/*icons and buttons*/
 #icons {
   text-align: center;
-  padding: 20px;
+  padding: 15px;
 }
 
 .icon {
@@ -114,19 +135,22 @@ body {
 
 #submit:hover {
   padding: 7px 20px;
-  background-color: white;
-  border: 3px solid green;
+  border: 3px solid rgb(87, 87, 87);
   font-weight: 700;
-  color: green;
+  color: rgb(58, 58, 58);
 }
 
-#submit:active {
-  background-color: darkgreen;
-  color:#000;
+#submit:active:hover {
+  background-color: rgb(71, 71, 71);
+  color:#ffffff;
   font-weight: 700;
 }
 
+#submit:disabled {
+  cursor: not-allowed;
+}
 
+/*clock*/
 #clock {
   text-align: center;
   font-size: 19px;
@@ -134,6 +158,7 @@ body {
   color: rgb(175, 175, 175);
 }
 
+/*user input box*/
 #userInput {
   margin: 0 auto;
   display: flex;
@@ -177,7 +202,6 @@ body {
 #phraseInput:focus {
   text-align: left;
   padding-left: 5px;
-  border-color: blue;
   background-color: #eff2f5;
 }
 
@@ -206,9 +230,14 @@ body {
   word-wrap: break-word;
   color: rgb(165, 165, 165);
   font-weight: 600;
-  line-height: 150%;
+  line-height: 160%;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
+.highlighted {
+  color: green;
+}
 
 /*help and share modals*/
 .modal {
@@ -257,7 +286,7 @@ body {
 
 #howtoplay{
   padding-bottom:10px;
-  padding-right: 15px;
+
   list-style-type: square;
 }
 
@@ -268,8 +297,7 @@ li{
 }
 
 
-
-/*Go to today's craick link*/
+/*link*/
 #golink{
   text-decoration: none;
   font-weight: 600;
@@ -279,7 +307,6 @@ li{
 #golink:hover {
   text-decoration: underline;
 }
-
 
 
 /*Copyright*/

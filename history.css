@@ -77,3 +77,14 @@ body {
   font-weight: 600;
   color: rgb(175, 175, 175);
 }
+
+/*Go to today's craick link*/
+#golink{
+  text-decoration: none;
+  font-weight: 600;
+  color: #4CAF50;
+}
+
+#golink:hover {
+  text-decoration: underline;
+}
