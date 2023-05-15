@@ -9,7 +9,7 @@ let resultText = '';
 let answer = '';
 let firstTry = '';
 let secondTry = '';
-let gotWords = '';
+let gotWords = [];
 let correctPrompt = false;
 
 //start
