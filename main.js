@@ -75,7 +75,7 @@ function fetchUserTrial(){
     tryCount = 1;
     resultText.innerHTML = '';
     gotWords = [];
-    loadTextContent();
+    //loadTextContent();
   //}
 }
 
