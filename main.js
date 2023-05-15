@@ -20,7 +20,7 @@ let tryCount = 1;
 function start() {
   //localStorage.clear();
   resultText = document.getElementById("resultText");
-  fetchUserTrial(formattedDate);
+  fetchUserTrial();
   showSlide(slideIndex);
 
   let datep = document.getElementById("datep");
