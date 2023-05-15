@@ -20,7 +20,7 @@ let tryCount = 1;
 function start() {
   //localStorage.clear();
   resultText = document.getElementById("resultText");
-  //fetchUserTrial();
+  fetchUserTrial();
   showSlide(slideIndex);
 
   let datep = document.getElementById("datep");
@@ -193,6 +193,7 @@ function handleButtonClick() {
   if(tryCount<maxTries){
     tryCount++;
   }
+  console.log("button click working, tryCount: " + tryCount);
   scoreSentence(inputValue, tryCount);
 
   if (tryCount < maxTries && !correctPrompt) {
@@ -228,6 +229,7 @@ function btnControl(tryCount){
 //score sentence
 
 function scoreSentence(userInput, tryCount){
+  console.log("score sentence working, userInput" + userInput);
   const display = document.getElementById("resultText");
   display.style.display = "block";
   let inputwords = userInput.split(" ");
