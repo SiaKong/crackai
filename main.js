@@ -60,8 +60,8 @@ function storeUserTrial(date, trial, rtHTML, dateGotWords){
   localStorage.setItem(key, jsonData);
 }
 
-function fetchUserTrial(date){
-  var key = 'userdata_' + date;
+function fetchUserTrial(){
+  var key = 'userdata_' + formattedDate;
   
   //var jsonData = localStorage.getItem(key);
 
