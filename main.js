@@ -65,18 +65,18 @@ function fetchUserTrial(date){
   
   var jsonData = localStorage.getItem(key);
 
-  if (jsonData!==null){
-    var data = JSON.parse(jsonData);
-    tryCount = data.trial;
-    resultText.innerHTML = data.rtHTML;
-    gotWords = data.dateGotWords;
-    btnControl(tryCount);
-  }else{
+  // if (jsonData!==null){
+  //   var data = JSON.parse(jsonData);
+  //   tryCount = data.trial;
+  //   resultText.innerHTML = data.rtHTML;
+  //   gotWords = data.dateGotWords;
+  //   btnControl(tryCount);
+  // }else{
     tryCount = 1;
     resultText.innerHTML = '';
     gotWords = [];
     loadTextContent();
-  }
+  //}
 }
 
 // prev & next date
