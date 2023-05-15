@@ -3,7 +3,7 @@ const currentDate = new Date();
 const year = currentDate.getFullYear();
 const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Adding 1 as months are zero-based
 const day = String(currentDate.getDate()).padStart(2, "0");
-const firstDay = '2023-05-10';
+const firstDay = '2023-05-14';
 let today = `${year}-${month}-${day}`;
 let formattedDate = localStorage.getItem("clickedDate");
 let answer = '';
@@ -201,7 +201,9 @@ function handleButtonClick() {
   const phraseInput = document.getElementById("phraseInput");
   inputValue = phraseInput.value.toUpperCase();
 
-  tryCount++;
+  if(tryCount<maxTries){
+    tryCount++;
+  }
   scoreSentence(inputValue, tryCount);
 
   if (tryCount < maxTries && !correctPrompt) {
@@ -228,6 +230,8 @@ function btnControl(tryCount){
     submitBtn.style.backgroundColor = "rgb(252, 163, 38)";
   }else if (tryCount==3){
     submitBtn.style.backgroundColor = "rgb(255, 104, 59)";
+  }else{
+    trialComplete();
   }
 }
 
@@ -307,7 +311,63 @@ function shareModal() {
   if (closeButton) {
     closeButton.addEventListener('click', closeShareModal);
   }
+  document.getElementById('selected-date').textContent = formattedDate;
+
+  // Set the source of Image 1
+  document.getElementById('shareImage').src = `testing/${formattedDate}-01.png`; // Replace 'path_to_image_1' with the actual path
+
+  // Clear previous result boxes
+  //document.getElementById('result-text').innerHTML = resultText.innerHTML;
+  let resultDisplay = '';
+  let answerwords = answer.split(" ");
+  answerwords.forEach((word, index) => {
+    if (gotWords.includes(removeNonAlpha(word))){
+      for (let i = 0; i < word.length; i++){
+        resultDisplay += '<img src="greenSqr.svg" width="15px" height="15px">';
+      }
+    }else{
+      for (let i = 0; i < word.length; i++){
+        resultDisplay += '<img src="greySqr.svg" width="15px" height="15px">';
+      }
+    }
+    resultDisplay += '<wbr>&nbsp;&nbsp;<wbr>';
+  });
+  document.getElementById('result-text').innerHTML = resultDisplay;
+
+  // Show the Share Modal
+  document.getElementById('share-modal').style.display = 'block';
+  saveImage('share-modal');
 }
+
+function saveImage(divID){
+  // Get the div element you want to save as an image
+  const divElement = document.getElementById(divID);
+  document.getElementsById("shareX").style.display = 'none';
+
+  // Create a canvas element
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+
+  // Set the canvas size to match the div element
+  canvas.width = divElement.offsetWidth;
+  canvas.height = divElement.offsetHeight;
+
+  // Draw the div element content onto the canvas
+  context.drawWindow(window, divElement.offsetLeft, divElement.offsetTop, divElement.offsetWidth, divElement.offsetHeight, 'rgb(255,255,255)');
+
+  // Convert the canvas to a data URL
+  const dataURL = canvas.toDataURL('image/png');
+
+  // Create a link element
+  const link = document.createElement('a');
+  link.href = dataURL;
+  link.download = `craick-${formattedDate}.png`;
+
+  // Simulate a click event on the link element to trigger the download
+  link.dispatchEvent(new MouseEvent('click'));
+  document.getElementsById("shareX").style.display = 'block';
+}
+
 
 function closeShareModal() {
   var modal = document.getElementById('shareModal');

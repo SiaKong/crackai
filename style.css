@@ -286,7 +286,6 @@ body {
 
 #howtoplay{
   padding-bottom:10px;
-
   list-style-type: square;
 }
 
@@ -296,6 +295,14 @@ li{
   font-weight: 500;
 }
 
+#shareImage{
+  height: 300px;
+  width: 300px;
+}
+
+#result-text{
+  padding:15px;
+}
 
 /*link*/
 #golink{
