@@ -82,7 +82,7 @@ function fetchUserTrial(date){
     tryCount = 1;
     resultText.innerHTML = '';
     gotWords = [];
-    loadTextContent();
+    //loadTextContent();
   }
 }
 
@@ -189,7 +189,19 @@ function loadTextContent(date) {
     .then((response) => response.text())
     .then((data) => {
       answer = data.toUpperCase();
-      scoreSentence('',tryCount);
+      if (tryCount==1){
+        for (let i = 0; i < answer.length; i++){
+          if (isAlpha(data[i])){
+            resultText.innerHTML += '__&nbsp;';
+          }else if (data[i]==' '){
+            resultText.innerHTML += '<wbr>&nbsp;&nbsp;<wbr>';
+          }else{
+            resultText.innerHTML += `${data[i]}&nbsp;`;
+          }
+        }
+      }else{
+        scoreSentence('',tryCount);
+      }
     })
     .catch((error) => {
       console.error("Error loading text content:", error);
