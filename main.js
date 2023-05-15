@@ -222,47 +222,60 @@ function scoreSentence(userInput, tryCount){
   let answerwords = answer.split(" ");
   resultText.innerHTML = '';
 
-  let answerAlpha = '';
-  for (let i = 0; i < answer.length; i++){
-    if (isAlpha(answer[i]) || answer[i]==' '){
-      answerAlpha += answer[i];
-    }
-  }
-  answerAlpha = answerAlpha.split(" ");
-
-  inputwords.forEach((word, index) => {
-    word = removeNonAlpha(word);
-    answerAlpha = removeNonAlpha(answer);
-    if (answerAlpha.includes(word)) {
-      gotWords.push(word);
-    } 
-  });
-
-  let numGotWords = 0;
-  answerwords.forEach((word, index) => {
-    if (gotWords.includes(removeNonAlpha(word))){
-      resultText.innerHTML += `<span class="highlighted">${word}</span>`;
-      numGotWords++;
-    }else{
-      if (tryCount == maxTries){
-        resultText.innerHTML += `${word}`;
+  if (tryCount==1){
+    for (let i = 0; i < answer.length; i++){
+      if (isAlpha(data[i])){
+        resultText.innerHTML += '__&nbsp;';
+      }else if (data[i]==' '){
+        resultText.innerHTML += '<wbr>&nbsp;&nbsp;<wbr>';
       }else{
-        for (let i = 0; i < word.length; ++i){
-          if ((i==0 && tryCount==3) || !isAlpha(word[i])){
-            resultText.innerHTML += `${word[i]}&nbsp;`;
-          }else{
-            resultText.innerHTML += `__&nbsp;`;
+        resultText.innerHTML += `${data[i]}&nbsp;`;
+      }
+    }
+  }else{
+
+    let answerAlpha = '';
+    for (let i = 0; i < answer.length; i++){
+      if (isAlpha(answer[i]) || answer[i]==' '){
+        answerAlpha += answer[i];
+      }
+    }
+    answerAlpha = answerAlpha.split(" ");
+
+    inputwords.forEach((word, index) => {
+      word = removeNonAlpha(word);
+      answerAlpha = removeNonAlpha(answer);
+      if (answerAlpha.includes(word)) {
+        gotWords.push(word);
+      } 
+    });
+
+    let numGotWords = 0;
+    answerwords.forEach((word, index) => {
+      if (gotWords.includes(removeNonAlpha(word))){
+        resultText.innerHTML += `<span class="highlighted">${word}</span>`;
+        numGotWords++;
+      }else{
+        if (tryCount == maxTries){
+          resultText.innerHTML += `${word}`;
+        }else{
+          for (let i = 0; i < word.length; ++i){
+            if ((i==0 && tryCount==3) || !isAlpha(word[i])){
+              resultText.innerHTML += `${word[i]}&nbsp;`;
+            }else{
+              resultText.innerHTML += `__&nbsp;`;
+            }
           }
         }
       }
-    }
-    if (index < answerwords.length - 1) {
-      resultText.innerHTML += "<wbr>&nbsp;&nbsp;<wbr>";
-    }
-  });
+      if (index < answerwords.length - 1) {
+        resultText.innerHTML += "<wbr>&nbsp;&nbsp;<wbr>";
+      }
+    });
 
-  if (numGotWords==answerwords.length){
-    trialComplete();
+    if (numGotWords==answerwords.length){
+      trialComplete();
+    }
   }
 }
 
