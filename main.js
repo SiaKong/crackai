@@ -63,20 +63,26 @@ function storeUserTrial(date, trial, rtHTML, dateGotWords){
 function fetchUserTrial(date){
   var key = 'userdata_' + date;
   
-  var jsonData = localStorage.getItem(key);
-
-  // if (jsonData!==null){
-  //   var data = JSON.parse(jsonData);
-  //   tryCount = data.trial;
-  //   resultText.innerHTML = data.rtHTML;
-  //   gotWords = data.dateGotWords;
-  //   btnControl(tryCount);
-  // }else{
-    tryCount = 1;
-    resultText.innerHTML = '';
-    gotWords = [];
-    loadTextContent();
-  //}
+  try {
+    var jsonData = localStorage.getItem(key);
+  
+    if (jsonData !== null) {
+      var data = JSON.parse(jsonData);
+      tryCount = data.trial;
+      resultText.innerHTML = data.rtHTML;
+      gotWords = data.dateGotWords;
+      btnControl(tryCount);
+    } else {
+      tryCount = 1;
+      resultText.innerHTML = '';
+      gotWords = [];
+      loadTextContent();
+    }
+  } catch (error) {
+    // Handle the error
+    console.error('An error occurred:', error);
+    // Perform fallback actions or display an error message
+  }
 }
 
 // prev & next date
