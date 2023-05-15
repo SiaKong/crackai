@@ -20,7 +20,7 @@ let tryCount = 1;
 function start() {
   //localStorage.clear();
   resultText = document.getElementById("resultText");
-  //fetchUserTrial(formattedDate);
+  fetchUserTrial(formattedDate);
   showSlide(slideIndex);
 
   let datep = document.getElementById("datep");
@@ -65,7 +65,7 @@ function fetchUserTrial(date){
   
   var jsonData = localStorage.getItem(key);
 
-  if (jsonData){
+  if (jsonData!==null){
     var data = JSON.parse(jsonData);
     tryCount = data.trial;
     resultText.innerHTML = data.rtHTML;
