@@ -326,3 +326,60 @@ li{
   margin: 0;
   margin-top: 1px;
 }
+
+
+/*keyboard*/
+#text-input {
+  display: block;
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+#virtual-keyboard {
+  display: inline-block;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+}
+
+.key {
+  display: inline-block;
+  padding: 5px;
+  margin: 2px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.delete-key {
+  background-color: #ff0000;
+  color: #fff;
+}
+
+/*display boxes*/
+#displayBoxes{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  padding-top: 0px;
+}
+
+.display {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  margin: 3px;
+  border: 3px solid #cecece;
+  background-color: #ebebeb;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: #5c5c5c;
+}
