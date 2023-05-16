@@ -383,8 +383,8 @@ li{
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
-  width: 30px;
+  height: 47px;
+  width: 40px;
   background-color: #a8a8a8;
   border: 1px solid #ccc;
   color:white;
@@ -393,14 +393,21 @@ li{
   cursor: pointer;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
-
+/* 
 .key:hover{
  background-color: #92ce8d;
  font-weight: 600;
+} */
+
+@media (hover: hover) and (pointer: fine) {
+  .key:hover{
+    background-color: #92ce8d;
+    font-weight: 600;
+   }
 }
 
 .key:active:hover{
-  background-color: #3d6439;
+  background-color: #479c3e;
   color:white;
   font-weight: 600;
 }
