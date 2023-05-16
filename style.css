@@ -329,50 +329,115 @@ li{
 
 
 /*keyboard*/
-#text-input {
-  display: block;
-  margin-bottom: 10px;
-  padding: 5px;
+
+#keyTrigger{
+  top: 0;
+  left: 0;
+  font-weight: 600;
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: rgb(175, 175, 175);
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
 }
+
+#keyTrigger:hover {
+  font-weight: 700;
+  background-color: rgb(117, 117, 117);
+}
+
+#keyTrigger:active:hover {
+  background-color: rgb(71, 71, 71);
+  color:#ffffff;
+  font-weight: 700;
+}
+
+#keycontainer {
+  text-align: center;
+  position: relative;
+  height: 40px;
+  margin-bottom: 20px;
+}
+
 
 #virtual-keyboard {
   display: inline-block;
-  border: 1px solid #ccc;
+  border-radius: 10px;
   padding: 5px;
+  margin-bottom: 20px;
 }
 
 .keyboard-row {
   display: flex;
   justify-content: center;
+  gap:5px;
+  padding:5px;
 }
 
 .key {
-  display: inline-block;
-  padding: 5px;
-  margin: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 30px;
+  background-color: #a8a8a8;
   border: 1px solid #ccc;
+  color:white;
+  border-radius: 3px;
+  font-size: 17px;
   cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.key:hover{
+ background-color: #92ce8d;
+ font-weight: 600;
+}
+
+.key:active:hover{
+  background-color: #3d6439;
+  color:white;
+  font-weight: 600;
 }
 
 .delete-key {
-  background-color: #ff0000;
+  background-color: #f77b7b;
+  color: #fff;
+}
+
+.hide-key {
+  font-size: x-small;
+  background-color:#5c5c5c;
   color: #fff;
 }
 
 /*display boxes*/
+#displaycontainer{
+  text-align: center;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  width: 55%;
+}
+
 #displayBoxes{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  padding: 40px;
+  padding-bottom: 25px;
   padding-top: 0px;
 }
 
 .display {
   display: inline-block;
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   margin: 3px;
   border: 3px solid #cecece;
   background-color: #ebebeb;

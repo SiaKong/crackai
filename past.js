@@ -4,13 +4,19 @@ const year = currentDate.getFullYear();
 const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Adding 1 as months are zero-based
 const day = String(currentDate.getDate()).padStart(2, "0");
 const firstDay = '2023-05-14';
+
 let today = `${year}-${month}-${day}`;
 let formattedDate = localStorage.getItem("clickedDate");
+
+let boxes = '';
+let resultText = '';
+let displayBoxes = '';
 let answer = '';
-let inputValue;
-let gotWords = [];
-let resultText;
-let correctPrompt = false;
+let currBox = 0;
+let userinput = [];
+let got = [];
+let pholder = [];
+
 
 //start
 const maxTries = 4;
@@ -18,13 +24,39 @@ let slideIndex = 0;
 let tryCount = 1;
 
 function start() {
-  //localStorage.clear();
+  localStorage.clear();
   resultText = document.getElementById("resultText");
-  fetchUserTrial(formattedDate);
+  displayBoxes = document.getElementById("displayBoxes");
+  
+  fetchUserTrial();
   showSlide(slideIndex);
 
   let datep = document.getElementById("datep");
   datep.textContent = formattedDate;
+
+  document.addEventListener('keydown',function(event){
+    keyPressed(event.key);
+  });
+  var virtualKeyboard = document.getElementById("virtual-keyboard");
+  
+  virtualKeyboard.addEventListener("click",keyPressed);
+  virtualKeyboard.addEventListener("click", function(event) {
+    var key = event.target.innerText;
+    
+    keyPressed(key);
+    
+  });
+
+  document.getElementById("keyTrigger").addEventListener("click",function(){
+    document.getElementById("virtual-keyboard").style.display = "block";
+    document.getElementById("keycontainer").style.display = "none";
+  });
+
+  document.getElementById("hidekey").addEventListener("click",function(){
+    document.getElementById("virtual-keyboard").style.display = "none";
+    document.getElementById("keycontainer").style.display = "block";
+  });
+
 
   const submitButton = document.getElementById("submit");
   submitButton.addEventListener("click", handleButtonClick);
@@ -48,44 +80,39 @@ function start() {
     nextDateElement.style.color = '#ccc';
     nextDateElement.style.cursor = 'default';
   }
-
+  
   loadImages(formattedDate);
   loadTextContent(formattedDate);
 }
 
 //store user data
-function storeUserTrial(date, trial, rtHTML, dateGotWords){
+function storeUserTrial(date, trial, gotWords){
   var key = 'userdata_' + date;
 
   var data = {
     trial: trial,
-    rtHTML: rtHTML,
-    dateGotWords: dateGotWords
+    gotWords: gotWords,
   };
 
   var jsonData = JSON.stringify(data);
   localStorage.setItem(key, jsonData);
 }
 
-function fetchUserTrial(date){
-  var key = 'userdata_' + date;
+function fetchUserTrial(){
+  var key = 'userdata_' + formattedDate;
   
   var jsonData = localStorage.getItem(key);
 
   if (jsonData){
     var data = JSON.parse(jsonData);
     tryCount = data.trial;
-    resultText.innerHTML = data.rtHTML;
-    gotWords = data.dateGotWords;
+    got = data.gotWords;
     btnControl(tryCount);
   }else{
     tryCount = 1;
-    resultText.innerHTML = '';
-    gotWords = [];
-    //loadTextContent();
+    got = [];
   }
 }
-
 
 // prev & next date
 function prevDate(){
@@ -93,8 +120,7 @@ function prevDate(){
 
   if (checkDate(previousDate,0)==0){
     localStorage.setItem("clickedDate", previousDate);
-    storeUserTrial(formattedDate, tryCount, resultText.innerHTML, gotWords);
-    location.reload();
+    window.location.href = 'past.html';
   }
 }
 
@@ -126,13 +152,11 @@ function checkDate(fdate,n) {
   let ndate = getDate(fdate,n);
   ndate = new Date(ndate);
   let fday = new Date(firstDay);
-  let tday = new Date(today);
 
   if (ndate < fday) {
     return -1;
-  } else if (ndate > tday) {
-    return 1;
-  }else{
+  } 
+  else{
     return 0;
   }
 }
@@ -189,36 +213,90 @@ function loadTextContent(date) {
     .then((response) => response.text())
     .then((data) => {
       answer = data.toUpperCase();
-      if (tryCount==1){
         for (let i = 0; i < answer.length; i++){
           if (isAlpha(data[i])){
-            resultText.innerHTML += '__&nbsp;';
+            displayBoxes.innerHTML += `<div class="display"></div>`;
           }else if (data[i]==' '){
-            resultText.innerHTML += '<wbr>&nbsp;&nbsp;<wbr>';
+            displayBoxes.innerHTML += '<img src="spacebar.svg">';
           }else{
-            resultText.innerHTML += `${data[i]}&nbsp;`;
+            displayBoxes.innerHTML += `${data[i]}&nbsp;`;
           }
         }
-      }else{
-        scoreSentence('',tryCount);
-      }
+        boxes = document.getElementsByClassName("display");
+
+        let answerAlpha = removeNonAlphaSpace(answer);
+        for (let i = 0; i < boxes.length; i++){
+          if (got[i]){
+            boxes[i].textContent = answerAlpha[i];
+          }
+        }
+
+        if (tryCount==maxTries){
+          let answerAlpha = removeNonAlphaSpace(answer);
+          trialComplete(answerAlpha);
+        }else{
+          scoreSentence(tryCount);
+        }
+  
+      
     })
     .catch((error) => {
       console.error("Error loading text content:", error);
     });
 }
 
+//keypress
+function keyPressed(event){
+  const pressed = event.toUpperCase();
+  if (isAlpha(pressed) && currBox < boxes.length){
+    while (got[currBox]){
+      currBox++;
+    }
+    userinput[currBox] = pressed;
+    boxes[currBox].style.color = "#5c5c5c";
+    boxes[currBox].textContent = pressed;
+    currBox++;
+  }else if ((event == "Backspace" || event == "←")&& (currBox > 0)){
+    if (got[currBox-1]){
+      while (got[currBox-1]){
+        currBox--;
+      }
+      if (currBox > 0){
+        currBox--;
+        userinput[currBox] = '';
+        boxes[currBox].textContent = '';
+      }
+    }else{
+      currBox--;
+      if(pholder[currBox]){
+        userinput[currBox] = '';
+        boxes[currBox].style.color = "#bfbfbf";
+        boxes[currBox].textContent = pholder[currBox];
+      }else{
+        userinput[currBox] = '';
+        boxes[currBox].textContent = '';
+      }
+    }
+  }else if (event.keyCode == 13){
+    handleButtonClick();
+  }
+}
+
+
 // Trial button click handler
 function handleButtonClick() {
-  const phraseInput = document.getElementById("phraseInput");
-  inputValue = phraseInput.value.toUpperCase();
+
+  let answerAlpha = removeNonAlphaSpace(answer);
 
   if(tryCount<maxTries){
     tryCount++;
   }
-  scoreSentence(inputValue, tryCount);
+  //console.log("button click working, tryCount: " + tryCount);
+  userinput = '';
+  currBox = 0;
+  scoreSentence(tryCount);
 
-  if (tryCount < maxTries && !correctPrompt) {
+  if (tryCount < maxTries) {
     const submitBtn = document.getElementById("submit");
 
     submitBtn.disabled = true;
@@ -227,11 +305,13 @@ function handleButtonClick() {
       btnControl(tryCount);
     }, 700);
   }
-  if (tryCount == maxTries) {
-    trialComplete();
-  }
 
-  storeUserTrial(formattedDate,tryCount,resultText.innerHTML,gotWords);
+  if (tryCount == maxTries) {
+    finish = true;
+    trialComplete(answerAlpha);
+  }
+  
+  storeUserTrial(formattedDate,tryCount,got);
 }
 
 function btnControl(tryCount){
@@ -243,76 +323,102 @@ function btnControl(tryCount){
   }else if (tryCount==3){
     submitBtn.style.backgroundColor = "rgb(255, 104, 59)";
   }else{
-    trialComplete();
+    let answerAlpha = removeNonAlphaSpace(answer);
+    trialComplete(answerAlpha);
   }
 }
 
-//score sentence
-function scoreSentence(userInput, tryCount){
-  resultText.style.display = "block";
-  let inputwords = userInput.split(" ");
-  let answerwords = answer.split(" ");
-  resultText.innerHTML = '';
 
-  let answerAlpha = '';
-  for (let i = 0; i < answer.length; i++){
-    if (isAlpha(answer[i]) || answer[i]==' '){
-      answerAlpha += answer[i];
+//score sentence
+
+function scoreSentence(tryCount){
+  //console.log("score sentence working, userInput" + userInput);
+  //const display = document.getElementById("resultText");
+  //display.style.display = "block";
+  //let inputwords = userInput.split(" ");
+  //let answerwords = answer.split(" ");
+  //resultText.innerHTML = '';
+
+  let answerAlpha = removeNonAlphaSpace(answer);
+  pholder = new Array(answerAlpha.length);
+  if (!got){
+    got = new Array(answerAlpha.length);
+  }
+  
+  for(let i = 0; i < boxes.length; i++){
+    if (boxes[i].textContent === answerAlpha[i] && !pholder[i]){
+      got[i] = answerAlpha[i];
+      boxes[i].style.backgroundColor = "#8bd47d";
+      boxes[i].style.border = "3px solid #76b06b";
+      boxes[i].style.color = "#ffffff";
+    }else{
+      boxes[i].textContent = '';
     }
   }
-  answerAlpha = answerAlpha.split(" ");
-
-  inputwords.forEach((word, index) => {
-    word = removeNonAlpha(word);
-    answerAlpha = removeNonAlpha(answer);
-    if (answerAlpha.includes(word)) {
-      gotWords.push(word);
-    } 
-  });
-
-  let numGotWords = 0;
-  answerwords.forEach((word, index) => {
-    if (gotWords.includes(removeNonAlpha(word))){
-      resultText.innerHTML += `<span class="highlighted">${word}</span>`;
-      numGotWords++;
-    }else{
-      if (tryCount == maxTries){
-        resultText.innerHTML += `${word}`;
-      }else{
-        for (let i = 0; i < word.length; ++i){
-          if ((i==0 && tryCount==3) || !isAlpha(word[i])){
-            resultText.innerHTML += `${word[i]}&nbsp;`;
-          }else{
-            resultText.innerHTML += `__&nbsp;`;
-          }
-        }
+  
+  if (tryCount==maxTries-1){
+    let answerSpace = removeNonAlpha(answer);
+    let answerSplit = answerSpace.split(" ");
+    let curri = 0;
+    for (let i = 0; i < answerSplit.length; i++){
+      if (i>0){
+        curri = curri + answerSplit[i-1].length;
+      }
+      if(boxes[curri].textContent!=answerAlpha[curri]){
+        pholder[curri] = answerSplit[i][0];
+        boxes[curri].style.color = "#bfbfbf";
+        boxes[curri].textContent = answerSplit[i][0];
       }
     }
-    if (index < answerwords.length - 1) {
-      resultText.innerHTML += "<wbr>&nbsp;&nbsp;<wbr>";
-    }
-  });
-
-  if (numGotWords==answerwords.length){
-    trialComplete();
   }
+
+  if (got.length>0){
+    let allmatch = true;
+    for(let i = 0; i < answer.length; i++){
+      if (!got[i]){
+        allmatch = false;
+      }
+    }
+
+    if (allmatch){
+      trialComplete(answerAlpha);
+    }
+  }
+  
 }
 
 function removeNonAlpha(str) {
   return str.replace(/[^a-zA-Z\s]/g, '');
 }
 
+function removeNonAlphaSpace(str){
+  return str.replace(/[^a-zA-Z]/g, '');
+}
+
 function isAlpha(char) {
   return /^[a-zA-Z]$/.test(char);
 }
 
-function trialComplete(){
+function trialComplete(answerAlpha){
   document.getElementById("submit").style.display = "none";
   document.getElementById("share").style.display = "";
-  phraseInput.disabled = true;
-  correctPrompt = true;
-}
 
+  for(let i = 0; i < boxes.length; i++){
+    if (got[i] == answerAlpha[i]){
+      boxes[i].style.backgroundColor = "#8bd47d";
+      boxes[i].style.border = "3px solid #76b06b";
+      boxes[i].style.color = "#f5f5f5";
+      boxes[i].textContent = answerAlpha[i]
+    }else{
+      boxes[i].style.backgroundColor = "#8f8f8f";
+      boxes[i].style.border = "3px solid #7a7a7a";
+      boxes[i].style.color = "#d9d9d9";
+      boxes[i].textContent = answerAlpha[i];
+    }
+  }
+
+  storeUserTrial(formattedDate,tryCount,got);
+}
 
 //share modal
 function shareModal() {
@@ -331,19 +437,21 @@ function shareModal() {
   // Clear previous result boxes
   //document.getElementById('result-text').innerHTML = resultText.innerHTML;
   let resultDisplay = '';
-  let answerwords = answer.split(" ");
-  answerwords.forEach((word, index) => {
-    if (gotWords.includes(removeNonAlpha(word))){
-      for (let i = 0; i < word.length; i++){
-        resultDisplay += '<img src="greenSqr.svg" width="15px" height="15px">';
+  let answerSpace = removeNonAlpha(answer);
+  let j = 0;
+  for (let i = 0; i < answerSpace.length; i++){
+    if (answerSpace[i]!=' '){
+      if (got[j]){
+        resultDisplay += '<img src="greenSqr.svg" width="15px" height="15px"><wbr>';
+      }else{
+        resultDisplay += '<img src="greySqr.svg" width="15px" height="15px"<wbr>';
       }
+      j++;
     }else{
-      for (let i = 0; i < word.length; i++){
-        resultDisplay += '<img src="greySqr.svg" width="15px" height="15px">';
-      }
+      resultDisplay += '<wbr>&nbsp;&nbsp;<wbr>';
     }
-    resultDisplay += '<wbr>&nbsp;&nbsp;<wbr>';
-  });
+  }
+
   document.getElementById('result-text').innerHTML = resultDisplay;
 
   // Show the Share Modal
@@ -379,7 +487,6 @@ function saveImage(divID){
   link.dispatchEvent(new MouseEvent('click'));
   document.getElementsById("shareX").style.display = 'block';
 }
-
 
 function closeShareModal() {
   var modal = document.getElementById('shareModal');
@@ -418,3 +525,16 @@ window.addEventListener('click', function(event) {
 
 window.addEventListener("load", start, false);
 
+
+
+var display = document.getElementById('display');
+
+// Add event listener to each key
+var keys = document.querySelectorAll('.key');
+keys.forEach(function(key) {
+  key.addEventListener('click', function() {
+    var letter = key.textContent;
+    console.log('Pressed: ' + letter);
+    display.textContent = letter;
+  });
+});

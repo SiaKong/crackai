@@ -20,6 +20,16 @@
             }
 
             /* Add this media query for screen widths below 500px */
+            @media (max-width: 1000px) {
+                #displaycontainer{
+                    text-align: center;
+                    position: relative;
+                    margin-left: auto;
+                    margin-right: auto;
+                    width: 80%;
+                }
+            }
+            
             @media (max-width: 600px) {
                 #header {
                     font-size:13px;
@@ -81,7 +91,7 @@
             <div id="content">
                 <p style="color:rgb(97, 97, 97); font-weight:600; margin-bottom: 0px;">TODAY'S CR<span style="color:rgb(87, 192, 55)">AI</span>CK</p>
                 <div id="arrows1">
-                    <span id="prevDate" class="prevDate">&#9664;</span>
+                    <span id="prevDate" class="prevDate">&#9668;</span>
                     <span><h2 id="datep" style="margin-top:5px; margin-bottom: 8px; color:rgb(63, 63, 63)"></h2></span>
                     <span id="nextDate" class="nextDate">&#9658;</span>
                 </div>
@@ -100,48 +110,47 @@
             </div>
 
             <div id="resultDisplay"><p id="resultText"></p></div>
-            <div id="displayBoxes"></div>
+            <div id="displaycontainer"><div id="displayBoxes"></div></div>
            
-
+            <div id="keycontainer">
+                <input type="button" id="keyTrigger" value="KEYBOARD">
+            </div>
             
-
-            <input type="text" id="text-input" readonly>
-            <div id="virtual-keyboard">
-            <div class="keyboard-row">
-                <div class="key">Q</div>
-                <div class="key">W</div>
-                <div class="key">E</div>
-                <div class="key">R</div>
-                <div class="key">T</div>
-                <div class="key">Y</div>
-                <div class="key">U</div>
-                <div class="key">I</div>
-                <div class="key">O</div>
-                <div class="key">P</div>
-            </div>
-            <div class="keyboard-row">
-                <div class="key">A</div>
-                <div class="key">S</div>
-                <div class="key">D</div>
-                <div class="key">F</div>
-                <div class="key">G</div>
-                <div class="key">H</div>
-                <div class="key">J</div>
-                <div class="key">K</div>
-                <div class="key">L</div>
-            </div>
-            <div class="keyboard-row">
-                <div class="key">Z</div>
-                <div class="key">X</div>
-                <div class="key">C</div>
-                <div class="key">V</div>
-                <div class="key">B</div>
-                <div class="key">N</div>
-                <div class="key">M</div>
-            </div>
-            <div class="keyboard-row">
-                <div class="key delete-key">&larr;</div>
-            </div>
+            <div id="virtual-keyboard" style="display:none;">
+                <div class="keyboard-row">
+                    <div class="key">Q</div>
+                    <div class="key">W</div>
+                    <div class="key">E</div>
+                    <div class="key">R</div>
+                    <div class="key">T</div>
+                    <div class="key">Y</div>
+                    <div class="key">U</div>
+                    <div class="key">I</div>
+                    <div class="key">O</div>
+                    <div class="key">P</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key">A</div>
+                    <div class="key">S</div>
+                    <div class="key">D</div>
+                    <div class="key">F</div>
+                    <div class="key">G</div>
+                    <div class="key">H</div>
+                    <div class="key">J</div>
+                    <div class="key">K</div>
+                    <div class="key">L</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key hide-key" id="hidekey">HIDE</div>
+                    <div class="key">Z</div>
+                    <div class="key">X</div>
+                    <div class="key">C</div>
+                    <div class="key">V</div>
+                    <div class="key">B</div>
+                    <div class="key">N</div>
+                    <div class="key">M</div>
+                    <div class="key delete-key">&larr;</div>
+                </div>
             </div>
 
             <div id="container">
@@ -178,8 +187,9 @@
                         <div style="background-color: rgb(250, 246, 246); padding:3px; border-radius: 22px;">
                             <ul style="color:rgb(63, 63, 63);">
                                 <li>You get 3 tries.</li>
+                                <li><img src="spacebar.svg"> represents a space.</li>
                                 <li>You don't have to guess the entire sentence each time. Try guessing the words that might be in the sentence. </li>
-                                <li>For each trial, if a word in your sentence exists in the AI prompt sentence, it will appear green.</li>
+                                <li>For each trial, if your letter matches the prompt letter at the same position, it will appear green.</li>
                                 <p id="example" style="color:rgb(156, 156, 156); font-weight:600;">Y __ __ __&nbsp;&nbsp;<span style="color:rgb(5, 163, 5)">GUESS<span></p>
                                 <li>For your last trial, the first letter of all words will appear to help you guess.</li>
                             </ul>

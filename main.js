@@ -5,12 +5,11 @@ const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Adding 1 a
 const day = String(currentDate.getDate()).padStart(2, "0");
 const firstDay = '2023-05-14';
 const formattedDate = `${year}-${month}-${day}`;
+
 let boxes = '';
 let resultText = '';
 let displayBoxes = '';
 let answer = '';
-let gotWords = [];
-let correctPrompt = false;
 let currBox = 0;
 let userinput = [];
 let got = [];
@@ -22,7 +21,7 @@ let slideIndex = 0;
 let tryCount = 1;
 
 function start() {
-  //localStorage.clear();
+  localStorage.clear();
   resultText = document.getElementById("resultText");
   displayBoxes = document.getElementById("displayBoxes");
   
@@ -32,9 +31,29 @@ function start() {
   let datep = document.getElementById("datep");
   datep.textContent = formattedDate;
 
-  //const keyboardClick = document.getElementsById("userInput");
-  //keyboardClick.addEventListener("keypress", keyPressed);
-  document.addEventListener('keydown',keyPressed);
+  document.addEventListener('keydown',function(event){
+    keyPressed(event.key);
+  });
+  var virtualKeyboard = document.getElementById("virtual-keyboard");
+  
+  virtualKeyboard.addEventListener("click",keyPressed);
+  virtualKeyboard.addEventListener("click", function(event) {
+    var key = event.target.innerText;
+    
+    keyPressed(key);
+    
+  });
+
+  document.getElementById("keyTrigger").addEventListener("click",function(){
+    document.getElementById("virtual-keyboard").style.display = "block";
+    document.getElementById("keycontainer").style.display = "none";
+  });
+
+  document.getElementById("hidekey").addEventListener("click",function(){
+    document.getElementById("virtual-keyboard").style.display = "none";
+    document.getElementById("keycontainer").style.display = "block";
+  });
+
 
   const submitButton = document.getElementById("submit");
   submitButton.addEventListener("click", handleButtonClick);
@@ -176,7 +195,7 @@ function loadTextContent(date) {
           if (isAlpha(data[i])){
             displayBoxes.innerHTML += `<div class="display"></div>`;
           }else if (data[i]==' '){
-            displayBoxes.innerHTML += '&nbsp;&nbsp;&nbsp;&nbsp;';
+            displayBoxes.innerHTML += '<img src="spacebar.svg">';
           }else{
             displayBoxes.innerHTML += `${data[i]}&nbsp;`;
           }
@@ -206,7 +225,7 @@ function loadTextContent(date) {
 
 //keypress
 function keyPressed(event){
-  const pressed = (event.key).toUpperCase();
+  const pressed = event.toUpperCase();
   if (isAlpha(pressed) && currBox < boxes.length){
     while (got[currBox]){
       currBox++;
@@ -215,7 +234,7 @@ function keyPressed(event){
     boxes[currBox].style.color = "#5c5c5c";
     boxes[currBox].textContent = pressed;
     currBox++;
-  }else if (event.keyCode == 8 && (currBox > 0)){
+  }else if ((event == "Backspace" || event == "←")&& (currBox > 0)){
     if (got[currBox-1]){
       while (got[currBox-1]){
         currBox--;
@@ -244,8 +263,6 @@ function keyPressed(event){
 
 // Trial button click handler
 function handleButtonClick() {
-  //const phraseInput = document.getElementById("phraseInput");
-  //inputValue = phraseInput.value.toUpperCase();
 
   let answerAlpha = removeNonAlphaSpace(answer);
 
@@ -257,7 +274,7 @@ function handleButtonClick() {
   currBox = 0;
   scoreSentence(tryCount);
 
-  if (tryCount < maxTries && !correctPrompt) {
+  if (tryCount < maxTries) {
     const submitBtn = document.getElementById("submit");
 
     submitBtn.disabled = true;
