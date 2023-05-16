@@ -24,7 +24,7 @@ let slideIndex = 0;
 let tryCount = 1;
 
 function start() {
-  localStorage.clear();
+  //localStorage.clear();
   resultText = document.getElementById("resultText");
   displayBoxes = document.getElementById("displayBoxes");
   
