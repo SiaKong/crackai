@@ -17,7 +17,9 @@ let userinput = [];
 let got = [];
 let pholder = [];
 
-
+const prewords = ['AT','IN','ON','BY','FOR','TO','FROM','WITH','WITHOUT','THE','A','AN',
+                  'AND','BUT','OR','SO','YET','NOR','INTO','ONTO','BE','IS','ARE','THIS',
+                  'THAT','THESE','THOSE'];
 //start
 const maxTries = 4;
 let slideIndex = 0;
@@ -213,6 +215,7 @@ function loadTextContent(date) {
     .then((response) => response.text())
     .then((data) => {
       answer = data.toUpperCase();
+      let currWord = '';
         for (let i = 0; i < answer.length; i++){
           if (isAlpha(data[i])){
             displayBoxes.innerHTML += `<div class="display"></div>`;
@@ -332,28 +335,43 @@ function btnControl(tryCount){
 //score sentence
 
 function scoreSentence(tryCount){
-  //console.log("score sentence working, userInput" + userInput);
-  //const display = document.getElementById("resultText");
-  //display.style.display = "block";
-  //let inputwords = userInput.split(" ");
-  //let answerwords = answer.split(" ");
-  //resultText.innerHTML = '';
+  let temp = removeNonAlpha(answer);
+  answerWords = temp.split(" ");
+  for (let i = 0; i < answerWords.length; i++){
+    if (prewords.includes(answerWords[i])){
+      let tword = '';
+      for (let j = 0; j < answerWords[i].length; j++){
+        tword += "@";
+      }
+      answerWords[i] = tword;
+    }
+  }
+  answerWords = answerWords.join("");
 
   let answerAlpha = removeNonAlphaSpace(answer);
   pholder = new Array(answerAlpha.length);
   if (!got){
     got = new Array(answerAlpha.length);
   }
-  
+
   for(let i = 0; i < boxes.length; i++){
-    if (boxes[i].textContent === answerAlpha[i] && !pholder[i]){
+    if ((boxes[i].textContent === answerAlpha[i] && !pholder[i])){
       got[i] = answerAlpha[i];
       boxes[i].style.backgroundColor = "#8bd47d";
       boxes[i].style.border = "3px solid #76b06b";
       boxes[i].style.color = "#ffffff";
-    }else{
+    }
+    else if(answerWords[i]=='@'){
+      boxes[i].textContent = answerAlpha[i];
+      got[i] = answerAlpha[i];
+      boxes[i].style.backgroundColor = "#8bd47d";
+      boxes[i].style.border = "3px solid #76b06b";
+      boxes[i].style.color = "#ffffff";
+    }
+    else{
       boxes[i].textContent = '';
     }
+    
   }
   
   if (tryCount==maxTries-1){
@@ -374,12 +392,13 @@ function scoreSentence(tryCount){
 
   if (got.length>0){
     let allmatch = true;
-    for(let i = 0; i < answer.length; i++){
-      if (!got[i]){
+    for(let i = 0; i < boxes.length; i++){
+      
+      if (got[i]==null){
         allmatch = false;
+  
       }
     }
-
     if (allmatch){
       trialComplete(answerAlpha);
     }
