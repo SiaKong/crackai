@@ -17,7 +17,7 @@ let userinput = [];
 let got = [];
 let pholder = [];
 
-const prewords = ['AT','IN','ON','BY','FOR','TO','FROM','WITH','WITHOUT','THE','A','AN',
+const prewords = ['AT','IN','ON','BY','FOR','TO','FROM','WITH','WITHOUT','THE','A', 'AS','AN',
                   'AND','BUT','OR','SO','YET','NOR','INTO','ONTO','BE','IS','ARE','THIS',
                   'THAT','THESE','THOSE'];
 //start
@@ -437,6 +437,7 @@ function trialComplete(answerAlpha){
   }
 
   storeUserTrial(formattedDate,tryCount,got);
+  shareModal();
 }
 
 //share modal
